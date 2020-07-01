@@ -1,11 +1,12 @@
-# Aplicación nativa para el uso del Desktop Virtual
-A través de esta aplicación nativa se realizará el ingreso al Desktop Mobile provisto por Telecom | Fibercorp.
+# Curso IOS - Swift4 CollectionView
 
-## Front-End
-> Framework: React Native 0.62,
-> Dependencies : ...
+Leccion : CollectionView, componente iOS para agrupacion de vistas.
 
-## Back-End
-> NetCore 2.2
-> ...
+[![4 Swift](https://img.shields.io/badge/Swift-4-green.svg)](https://github.com/Naereen/badges)
+[![13 iOS](https://img.shields.io/badge/iOS-13x+-blue.svg)](https://github.com/Naereen/badges)
 
+## Anotaciones
+En proceso...
+
+## Detalles
+En proceso...

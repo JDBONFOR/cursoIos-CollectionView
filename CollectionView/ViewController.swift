@@ -8,53 +8,85 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ViewController: UIViewController {
     
-    // IBOutlets
+    // MARK: IBOutlets
     @IBOutlet weak var collectionView: UICollectionView!
     
-    // IBActions
+    // MARK: Variables
+    private let myCountries = [
+        "España",
+        "Argentina",
+        "Francia",
+        "Perú",
+        "Colombia",
+        "EEUU",
+        "Italia",
+        "Mexico"
+    ]
+    // Mitad de pantalla.
+    private let myCellWidth = UIScreen.main.bounds.width / 2
     
+    // MARK: Private Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
-        setUpCollectionView(collection: collectionView);
+        collectionView.dataSource = self;
+        collectionView.delegate = self;
+        collectionView.register(UINib(nibName: "MYCUSTOMCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "myCell")
     }
 
-    // Variables
     
-    // Functions
-    func setUpCollectionView( collection: UICollectionView ){
-        /** Delego el manejo de la collection a este viewController
-         por eso agrego los delegados a la clase. */
-        collection.delegate = self;
-        collection.dataSource = self;
+    
+    // MARK: IBActions
+
+}
+
+// MARK: Extension UICollectionViewDataSource
+extension ViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
     }
     
     // System functions
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         // Retornamos los items de la collection, de manera fija. En este caso 50, pero si corresponde a un Array de un request, utilizar el .count correspondiente.
-        return 200
+        return myCountries.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         // Creamos las celdas en base a una celda reutilizable. En el Storyboard definimos el identifier de nuestra celda y la retornamos.
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "colorCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myCell", for: indexPath) as? MYCUSTOMCollectionViewCell
+        cell!.myFirstLabel.text = myCountries[indexPath.row]
+        return cell!
         
-        // Asignamos un color STD para todas por igual.
-        //cell.backgroundColor = UIColor.orange
-        
-        let red = CGFloat(Int(arc4random_uniform(155)) + 100)
-        let green = CGFloat(Int(arc4random_uniform(155)) + 100)
-        let blue = CGFloat(Int(arc4random_uniform(155)) + 100)
-        
-        cell.backgroundColor = UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1.0)
-        
-        return cell
     }
     
-
 }
 
+// MARK: Extension UICollectionViewDelegate
+extension ViewController: UICollectionViewDelegate {
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("\(indexPath.section) -> \(indexPath.row) \(myCountries[indexPath.row])")
+    }
+    
+}
+
+// MARK: Extension UICollectionViewDelegateFlowLayout
+extension ViewController: UICollectionViewDelegateFlowLayout {
+    
+    // Manejo del tamaño de la celda.
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if indexPath.section == 0 {
+            return CGSize(width: myCellWidth, height:myCellWidth)
+        }
+        
+        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+        
+        
+    }
+}
